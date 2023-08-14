@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { LineRouteEntity } from "@modules/lines-routes/models/entities/line-route.entity";
 import { Repository } from "typeorm";
+import { CompareLinestringsDto } from "@modules/lines-routes/models/dto/compare-linestrings.dto";
 
 @Injectable()
 export class LinesRoutesService {
@@ -17,13 +18,9 @@ export class LinesRoutesService {
   }
 
   async findOne(id: number) {
-    const lineRoute = await this.lineRouteRepository.findOne({
+    return await this.lineRouteRepository.findOne({
       where: { id }
     });
-    lineRoute.geom.coordinates = lineRoute.geom.coordinates.map((coordinate) => {
-      return coordinate.reverse();
-    });
-    return lineRoute;
   }
 
   async findByName(name: string) {
@@ -33,4 +30,23 @@ export class LinesRoutesService {
   }
 
 
+  async compareLinestrings(compareLinestringsDto: CompareLinestringsDto) {
+    const { coordinates } = compareLinestringsDto;
+    const linestring = `LINESTRING(${ coordinates.map((coordinate) => `${ coordinate[0] } ${ coordinate[1] }`).join(",") })`;
+    console.log(linestring);
+
+    return await this.lineRouteRepository.query(`
+        SELECT *,
+               ST_AsText(ST_ClosestPoint(ST_GeomFromText('${ linestring }'),
+                                         ST_GeomFromText(linestring))) AS closest_point
+        FROM lines_routes
+    `).then((response) => {
+      return response.map((lineRoute) => {
+        return {
+          ...lineRoute,
+          closest_point: lineRoute.closest_point.replace("POINT(", "").replace(")", "").split(" ").map((coordinate) => +coordinate)
+        };
+      });
+    });
+  }
 }

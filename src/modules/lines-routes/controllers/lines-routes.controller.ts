@@ -1,5 +1,7 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { LinesRoutesService } from "@modules/lines-routes/services/lines-routes.service";
+import { LineString } from "geojson";
+import { CompareLinestringsDto } from "@modules/lines-routes/models/dto/compare-linestrings.dto";
 
 @Controller("lines-routes")
 export class LinesRoutesController {
@@ -21,5 +23,14 @@ export class LinesRoutesController {
   @Get("/find-by-name/:name")
   async findByName(@Param("name") name: string) {
     return await this.linesRoutesService.findByName(name);
+  }
+
+  @Post("/compare-linestrings")
+  async compareLinestrings(
+    @Body() compareLinestringsDto: CompareLinestringsDto
+  ) {
+    return await this.linesRoutesService.compareLinestrings(
+      compareLinestringsDto
+    );
   }
 }
