@@ -24,13 +24,4 @@ export class LinesRoutesController {
   async findByName(@Param("name") name: string) {
     return await this.linesRoutesService.findByName(name);
   }
-
-  @Post("/compare-linestrings")
-  async compareLinestrings(
-    @Body() compareLinestringsDto: CompareLinestringsDto
-  ) {
-    return await this.linesRoutesService.compareLinestrings(
-      compareLinestringsDto
-    );
-  }
 }
