@@ -37,7 +37,7 @@ export class LinesRoutesService {
             ) AS distance
             FROM lines_routes
             ORDER BY distance ASC
-            LIMIT 12) AS nearest_lines_routes;
+            LIMIT 14) AS nearest_lines_routes;
         `);
     }
 }
