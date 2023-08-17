@@ -31,16 +31,13 @@ export class LinesRoutesService {
 
     async findNearestLinesRoutes(nearestLinesRoutesDto: NearestLinesRoutesDto) {
         const {coordinate} = nearestLinesRoutesDto;
-        return await this.lineRouteRepository.query(`
-            SELECT name
-             FROM lines_names 
-             WHERE name IN (SELECT name FROM (SELECT *, ST_DistanceSphere(
+        return await this.lineRouteRepository.query(`SELECT distinct(name) FROM (SELECT *, ST_DistanceSphere(
             geom,
             ST_GeomFromText('POINT(${coordinate[0]} ${coordinate[1]})', 4326)
             ) AS distance
             FROM lines_routes
             ORDER BY distance ASC
-            LIMIT 12) AS nearest_lines_routes)
+            LIMIT 12) AS nearest_lines_routes;
         `);
     }
 }
