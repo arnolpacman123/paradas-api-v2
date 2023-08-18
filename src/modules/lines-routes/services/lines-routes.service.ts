@@ -39,10 +39,16 @@ export class LinesRoutesService {
         `);
         if (names.length === 0) {
             names = await this.lineRouteRepository.query(`
-                SELECT distinct(name) FROM (SELECT lr.name, ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326)) AS distance
-                FROM lines_routes lr
-                ORDER BY distance ASC
-                LIMIT 10) as subquery;
+                SELECT 
+                    lr.name, 
+                    MIN(ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326))) AS min_distance
+                FROM 
+                    lines_routes lr
+                GROUP BY 
+                    lr.name
+                ORDER BY 
+                    min_distance ASC
+                LIMIT 8;
             `);
         }
         return names;
