@@ -31,12 +31,20 @@ export class LinesRoutesService {
 
     async findNearestLinesRoutes(nearestLinesRoutesDto: NearestLinesRoutesDto) {
         const { coordinate } = nearestLinesRoutesDto;
-        // Encontrar el nombre de las líneas (una sola vez una línea) que estén a menos de 400 metros de la ubicación y ordenarlas por distancia
-        return await this.lineRouteRepository.query(`
+        let names = await this.lineRouteRepository.query(`
             SELECT DISTINCT (lr.name), ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326)) AS distance
             FROM lines_routes lr
             WHERE ST_DWithin(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326), 0.002)
             ORDER BY distance ASC;
         `);
+        if (names.length === 0) {
+            names = await this.lineRouteRepository.query(`
+                SELECT distinct(name) FROM (SELECT lr.name, ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326)) AS distance
+                FROM lines_routes lr
+                ORDER BY distance ASC
+                LIMIT 10) as subquery;
+            `);
+        }
+        return names;
     }
 }
