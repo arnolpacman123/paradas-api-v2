@@ -48,7 +48,7 @@ export class LinesRoutesService {
                     lr.name
                 ORDER BY 
                     min_distance ASC
-                LIMIT 8;
+                LIMIT 10;
             `);
         }
         return names;
