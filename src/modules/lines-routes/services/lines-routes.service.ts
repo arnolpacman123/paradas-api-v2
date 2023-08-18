@@ -37,7 +37,7 @@ export class LinesRoutesService {
             WHERE ST_DistanceSphere(
                 geom,
                 ST_MakePoint(${coordinate[0]}, ${coordinate[1]})
-            ) <= 300
+            ) <= 400
         `);
     }
 }
