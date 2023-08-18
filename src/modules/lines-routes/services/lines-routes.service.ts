@@ -34,7 +34,7 @@ export class LinesRoutesService {
         let names = await this.lineRouteRepository.query(`
             SELECT DISTINCT (lr.name), ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326)) AS distance
             FROM lines_routes lr
-            WHERE ST_DWithin(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326), 0.002)
+            WHERE ST_DWithin(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326), 0.001)
             ORDER BY distance ASC;
         `);
         if (names.length === 0) {
@@ -48,7 +48,7 @@ export class LinesRoutesService {
                     lr.name
                 ORDER BY 
                     min_distance ASC
-                LIMIT 10;
+                LIMIT 12;
             `);
         }
         return names;
