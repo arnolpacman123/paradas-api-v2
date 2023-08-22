@@ -32,9 +32,11 @@ export class LinesRoutesService {
     async findNearestLinesRoutes(nearestLinesRoutesDto: NearestLinesRoutesDto) {
         const { coordinate } = nearestLinesRoutesDto;
         let names = await this.lineRouteRepository.query(`
-            SELECT DISTINCT (lr.name), ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326)) AS distance
+            SELECT lr.name, 
+            MIN(ST_DistanceSphere(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326))) AS distance
             FROM lines_routes lr
             WHERE ST_DWithin(lr.geom, ST_SetSRID(ST_MakePoint(${coordinate[0]}, ${coordinate[1]}), 4326), 0.001)
+            GROUP BY lr.name
             ORDER BY distance ASC;
         `);
         if (names.length === 0) {
