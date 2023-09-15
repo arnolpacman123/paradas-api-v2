@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { LineRouteEntity } from "@modules/lines-routes/models/entities/line-route.entity";
 import { Repository } from "typeorm";
 import { NearestLinesRoutesDto } from "@modules/lines-routes/models/dto/nearest-lines-routes.dto";
+import { FindLineRouteDto } from "@modules/lines-routes/models/dto/find-line-route.dto";
 
 @Injectable()
 export class LinesRoutesService {
@@ -54,5 +55,12 @@ export class LinesRoutesService {
             `);
         }
         return names;
+    }
+
+    async findLineRoute(findLineRouteDto: FindLineRouteDto) {
+        const { name, ground } = findLineRouteDto;
+        return await this.lineRouteRepository.findOne({
+            where: { name, ground }
+        });
     }
 }
