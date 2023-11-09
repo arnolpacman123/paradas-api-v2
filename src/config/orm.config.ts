@@ -1,11 +1,12 @@
-import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const options: TypeOrmModuleOptions = {
-  type: "postgres",
-  host: "20.195.213.69",
-  username: "arnolguevara21",
-  password: "aspirine",
-  database: "transport_channels_db",
-  entities: [ __dirname + "/../**/*.entity{.ts,.js}" ],
-  autoLoadEntities: true
+  type: 'postgres',
+  port: 5432,
+  host: 'postgresql-arnolguevara21.alwaysdata.net',
+  username: 'arnolguevara21',
+  password: 'Aspirine217021220',
+  database: 'arnolguevara21_smtt_channels_transports_db',
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  autoLoadEntities: true,
 };

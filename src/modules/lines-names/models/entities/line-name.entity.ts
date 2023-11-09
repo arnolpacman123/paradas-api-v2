@@ -1,14 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-  name: "lines_names"
+  name: 'lines_names',
 })
 export class LineNameEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
   @Column({
-    type: "varchar"
+    type: 'varchar',
   })
   name: string;
 }
