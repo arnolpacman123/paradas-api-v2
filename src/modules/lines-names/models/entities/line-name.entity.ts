@@ -9,6 +9,13 @@ export class LineNameEntity {
 
   @Column({
     type: 'varchar',
+    name: 'name',
   })
   name: string;
+
+  @Column({
+    type: 'varchar',
+    name: 'image_url',
+  })
+  imageUrl: string;
 }
