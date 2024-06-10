@@ -16,7 +16,7 @@ export class StopPointEntity {
     })
     geom: Point;
 
-    @ManyToOne(() => ChannelRouteEntity, channel_route => channel_route.stops_points)
-    @JoinColumn({ name: 'channel_route_id' })
-    channel_route: ChannelRouteEntity;
+    // @ManyToOne(() => ChannelRouteEntity, channel_route => channel_route.stops_points)
+    // @JoinColumn({ name: 'channel_route_id' })
+    // channel_route: ChannelRouteEntity;
 }

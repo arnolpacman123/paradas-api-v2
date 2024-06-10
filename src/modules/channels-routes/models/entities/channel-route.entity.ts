@@ -14,11 +14,20 @@ export class ChannelRouteEntity {
         spatialFeatureType: 'LineString',
         srid: 4326
     })
-    geom: LineString;
+    geom?: LineString;
 
-    @Column()
-    channel_number: number;
+    @Column({
+        type: 'varchar',
+        name: 'name',
+    })
+    name?: string;
 
-    @OneToMany(() => StopPointEntity, stop_point => stop_point.channel_route)
-    stops_points: StopPointEntity[];
+    @Column({
+        name: 'is_primary',
+        type: 'boolean',
+    })
+    isPrimary?: boolean;
+
+    // @OneToMany(() => StopPointEntity, stop_point => stop_point.channel_route)
+    // stops_points: StopPointEntity[];
 }
