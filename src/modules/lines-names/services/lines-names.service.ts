@@ -11,6 +11,10 @@ export class LinesNamesService {
   ) {}
 
   async findAll(): Promise<LineNameEntity[]> {
-    return this.linesNamesRepository.find();
+    return this.linesNamesRepository.find({
+      order: {
+        id: 'ASC',
+      },
+    });
   }
 }
