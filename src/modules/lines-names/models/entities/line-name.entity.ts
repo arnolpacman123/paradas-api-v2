@@ -11,11 +11,11 @@ export class LineNameEntity {
     type: 'varchar',
     name: 'name',
   })
-  name: string;
+  name?: string;
 
   @Column({
     type: 'varchar',
     name: 'image_url',
   })
-  imageUrl: string;
+  imageUrl?: string;
 }
