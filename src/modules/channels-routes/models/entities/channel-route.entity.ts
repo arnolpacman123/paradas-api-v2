@@ -11,6 +11,7 @@ export class ChannelRouteEntity {
 
     @Column({
         type: 'geometry',
+        name: 'geom',
         spatialFeatureType: 'LineString',
         srid: 4326
     })
@@ -23,10 +24,16 @@ export class ChannelRouteEntity {
     name?: string;
 
     @Column({
-        name: 'is_primary',
         type: 'boolean',
+        name: 'is_primary',
     })
     isPrimary?: boolean;
+
+    @Column({
+        type: 'varchar',
+        name: 'color'
+    })
+    color?: string;
 
     // @OneToMany(() => StopPointEntity, stop_point => stop_point.channel_route)
     // stops_points: StopPointEntity[];
