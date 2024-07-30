@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
-import { StopPointEntity } from "@modules/stops-points/models/entities/stop-point.entity";
+import { BusStopsEntity } from "@modules/bus-stops/models/entities/bus-stops.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class StopsPointsService {
+export class BusStopsService {
 
     constructor(
-        @InjectRepository(StopPointEntity)
-        private readonly stopPointRepository: Repository<StopPointEntity>,
+        @InjectRepository(BusStopsEntity)
+        private readonly stopPointRepository: Repository<BusStopsEntity>,
     ) {
     }
 

@@ -6,7 +6,7 @@ import { LinesNamesModule } from "@modules/lines-names/lines-names.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { options } from "@config/orm.config";
 import { ChannelsRoutesModule } from './modules/channels-routes/channels-routes.module';
-import { StopsPointsModule } from './modules/stops-points/stops-points.module';
+import { BusStopsModule } from '@modules/bus-stops/bus-stops.module';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { StopsPointsModule } from './modules/stops-points/stops-points.module';
     LinesRoutesModule,
     LinesNamesModule,
     ChannelsRoutesModule,
-    StopsPointsModule
+    BusStopsModule
   ],
   controllers: [ AppController ],
   providers: [ AppService ]

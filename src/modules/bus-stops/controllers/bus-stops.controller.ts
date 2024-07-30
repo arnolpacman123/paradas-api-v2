@@ -1,11 +1,11 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { StopsPointsService } from "@modules/stops-points/services/stops-points.service";
+import { BusStopsService } from "@modules/bus-stops/services/bus-stops.service";
 
-@Controller('stops-points')
-export class StopsPointsController {
+@Controller('bus-stops')
+export class BusStopsController {
 
     constructor(
-        private readonly stopsPointsService: StopsPointsService,
+        private readonly stopsPointsService: BusStopsService,
     ) {
     }
 

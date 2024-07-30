@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { LineString } from "geojson";
-import { StopPointEntity } from "@modules/stops-points/models/entities/stop-point.entity";
+import { BusStopsEntity } from "@modules/bus-stops/models/entities/bus-stops.entity";
 
 @Entity({
     name: 'channels_routes'
@@ -35,6 +35,6 @@ export class ChannelRouteEntity {
     })
     color?: string;
 
-    // @OneToMany(() => StopPointEntity, stop_point => stop_point.channel_route)
-    // stops_points: StopPointEntity[];
+    // @OneToMany(() => BusStopsEntity, stop_point => stop_point.channel_route)
+    // stops_points: BusStopsEntity[];
 }

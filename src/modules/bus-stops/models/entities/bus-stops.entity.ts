@@ -2,9 +2,9 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Point } from "geojson";
 
 @Entity({
-    name: 'stops_points'
+    name: 'bus_stops'
 })
-export class StopPointEntity {
+export class BusStopsEntity {
     @PrimaryGeneratedColumn()
     id?: number;
 
