@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { LinesRoutesController } from "./controllers/lines-routes.controller";
-import { LinesRoutesService } from "./services/lines-routes.service";
+import { LinesRoutesController } from "@modules/lines-routes/controllers/lines-routes.controller";
+import { LinesRoutesService } from "@modules/lines-routes/services/lines-routes.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { LineRouteEntity } from "@modules/lines-routes/models/entities/line-route.entity";
 

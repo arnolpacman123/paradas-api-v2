@@ -5,13 +5,13 @@ import { BusStopsService } from "@modules/bus-stops/services/bus-stops.service";
 export class BusStopsController {
 
     constructor(
-        private readonly stopsPointsService: BusStopsService,
+        private readonly busStopsService: BusStopsService,
     ) {
     }
 
     @Get()
     async findAll() {
-        return await this.stopsPointsService.findAll();
+        return await this.busStopsService.findAll();
     }
 
     @Get('find-with-coordinates')
@@ -19,6 +19,6 @@ export class BusStopsController {
         @Query('lat') lat: number,
         @Query('lng') lng: number,
     ) {
-        return await this.stopsPointsService.findWithCoordinates(lat, lng);
+        return await this.busStopsService.findWithCoordinates(lat, lng);
     }
 }

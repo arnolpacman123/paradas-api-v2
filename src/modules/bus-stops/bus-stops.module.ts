@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
-import { BusStopsService } from './services/bus-stops.service';
-import { BusStopsController } from './controllers/bus-stops.controller';
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { BusStopsEntity } from "@modules/bus-stops/models/entities/bus-stops.entity";
+import { BusStopsService } from '@modules/bus-stops/services/bus-stops.service';
+import { BusStopsController } from '@modules/bus-stops/controllers/bus-stops.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { BusStopEntity } from '@modules/bus-stops/models/entities/bus-stop.entity';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([
-            BusStopsEntity,
-        ]),
-    ],
-    providers: [ BusStopsService ],
-    controllers: [ BusStopsController ]
+  imports: [TypeOrmModule.forFeature([BusStopEntity])],
+  providers: [BusStopsService],
+  controllers: [BusStopsController],
 })
-export class BusStopsModule {
-}
+export class BusStopsModule {}
