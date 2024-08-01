@@ -1,8 +1,4 @@
 import {
-  ConnectedSocket,
-  MessageBody,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
   OnGatewayInit,
   WebSocketGateway,
   WebSocketServer,
@@ -10,7 +6,7 @@ import {
 import { ParkingEntity } from '../models/entities/parking.entity';
 import { ParkingsService } from '../services/parkings.service';
 import { Client } from 'pg';
-import { Socket, Server } from 'socket.io';
+import { Server } from 'socket.io';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -21,9 +17,7 @@ dotenv.config();
     origin: '*',
   },
 })
-export class ParkingsGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-{
+export class ParkingsGateway implements OnGatewayInit {
   @WebSocketServer()
   server: Server;
   parkings: ParkingEntity[] = [];
@@ -41,29 +35,17 @@ export class ParkingsGateway
     });
   }
 
-  async afterInit(server: any) {
+  async afterInit(_: any) {
     this.parkings = await this.parkingsService.findAll();
     try {
       await this.client.connect();
       await this.client.query('LISTEN parkings_update');
       this.client.on('notification', async (_) => {
         this.parkings = await this.parkingsService.findAll();
-        server.emit('update', this.parkings);
+        this.server.emit('update', this.parkings);
       });
     } catch (e) {
       console.error(e);
     }
-  }
-
-  handleConnection(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() ..._: any[]
-  ) {
-    client.broadcast.emit('connected');
-    this.server.to(client.id).emit('update', this.parkings);
-  }
-
-  handleDisconnect(@ConnectedSocket() client: Socket) {
-    client.broadcast.emit('disconnected');
   }
 }
