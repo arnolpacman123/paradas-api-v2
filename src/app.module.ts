@@ -8,6 +8,7 @@ import { options } from "@config/orm.config";
 import { ChannelsRoutesModule } from './modules/channels-routes/channels-routes.module';
 import { BusStopsModule } from '@modules/bus-stops/bus-stops.module';
 import { CityCamerasModule } from './modules/city-cameras/city-cameras.module';
+import { ParkingsModule } from './modules/parkings/parkings.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { CityCamerasModule } from './modules/city-cameras/city-cameras.module';
     LinesNamesModule,
     ChannelsRoutesModule,
     BusStopsModule,
-    CityCamerasModule
+    CityCamerasModule,
+    ParkingsModule
   ],
   controllers: [ AppController ],
   providers: [ AppService ]
