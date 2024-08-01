@@ -37,6 +37,7 @@ export class ParkingsGateway implements OnGatewayInit {
 
   async afterInit(_: any) {
     this.parkings = await this.parkingsService.findAll();
+    this.server.emit('update', this.parkings);
     try {
       await this.client.connect();
       await this.client.query('LISTEN parkings_update');
