@@ -11,6 +11,9 @@ import { ParkingEntity } from '../models/entities/parking.entity';
 import { ParkingsService } from '../services/parkings.service';
 import { Client } from 'pg';
 import { Socket, Server } from 'socket.io';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @WebSocketGateway({
   namespace: 'parkings',
@@ -34,10 +37,10 @@ export class ParkingsGateway
   async afterInit(server: any) {
     this.parkings = await this.parkingsService.findAll();
     const client = new Client({
-      host: 'postgresql-arnolguevara21.alwaysdata.net',
-      user: 'arnolguevara21',
-      password: 'Aspirine217021220',
-      database: 'arnolguevara21_smtt_channels_transports_db',
+      host: process.env.DB_HOST,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
     });
     try {
       await client.connect();
