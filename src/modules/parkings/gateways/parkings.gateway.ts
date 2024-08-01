@@ -27,8 +27,15 @@ export class ParkingsGateway
   @WebSocketServer()
   server: Server;
   parkings: ParkingEntity[] = [];
+  client: Client;
 
   constructor(private readonly parkingsService: ParkingsService) {
+    this.client = new Client({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+    });
     this.parkingsService.findAll().then((parkings) => {
       this.parkings = parkings;
     });
@@ -36,16 +43,10 @@ export class ParkingsGateway
 
   async afterInit(server: any) {
     this.parkings = await this.parkingsService.findAll();
-    const client = new Client({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-    });
     try {
-      await client.connect();
-      await client.query('LISTEN parkings_update');
-      client.on('notification', async (_) => {
+      await this.client.connect();
+      await this.client.query('LISTEN parkings_update');
+      this.client.on('notification', async (_) => {
         this.parkings = await this.parkingsService.findAll();
         server.emit('update', this.parkings);
       });
