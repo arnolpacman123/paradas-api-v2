@@ -17,7 +17,7 @@ dotenv.config();
 @WebSocketGateway({
   namespace: 'parkings',
   pingInterval: 60000, // 1 minuto
-  pingTimeout: 30000, // 30 segundos
+  pingTimeout: 60000, // 1 minuto
   cors: {
     origin: '*',
   },
