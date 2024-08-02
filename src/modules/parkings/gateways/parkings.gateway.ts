@@ -19,6 +19,7 @@ dotenv.config();
   cors: {
     origin: '*',
   },
+  pingTimeout: 60000,
 })
 export class ParkingsGateway implements OnGatewayInit, OnGatewayConnection {
   @WebSocketServer()
