@@ -16,10 +16,11 @@ dotenv.config();
 
 @WebSocketGateway({
   namespace: 'parkings',
+  pingInterval: 60000, // 1 minuto
+  pingTimeout: 30000, // 30 segundos
   cors: {
     origin: '*',
   },
-  pingTimeout: 60000,
 })
 export class ParkingsGateway implements OnGatewayInit, OnGatewayConnection {
   @WebSocketServer()
