@@ -1,4 +1,7 @@
 import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayConnection,
   OnGatewayInit,
   WebSocketGateway,
   WebSocketServer,
@@ -6,7 +9,7 @@ import {
 import { ParkingEntity } from '../models/entities/parking.entity';
 import { ParkingsService } from '../services/parkings.service';
 import { Client } from 'pg';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -17,7 +20,7 @@ dotenv.config();
     origin: '*',
   },
 })
-export class ParkingsGateway implements OnGatewayInit {
+export class ParkingsGateway implements OnGatewayInit, OnGatewayConnection {
   @WebSocketServer()
   server: Server;
   parkings: ParkingEntity[] = [];
@@ -30,14 +33,9 @@ export class ParkingsGateway implements OnGatewayInit {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
     });
-    this.parkingsService.findAll().then((parkings) => {
-      this.parkings = parkings;
-    });
   }
 
   async afterInit(_: any) {
-    this.parkings = await this.parkingsService.findAll();
-    this.server.emit('update', this.parkings);
     try {
       await this.client.connect();
       await this.client.query('LISTEN parkings_update');
@@ -48,5 +46,13 @@ export class ParkingsGateway implements OnGatewayInit {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async handleConnection(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() ..._: any[]
+  ) {
+    this.parkings = await this.parkingsService.findAll();
+    client.emit('update', this.parkings);
   }
 }
